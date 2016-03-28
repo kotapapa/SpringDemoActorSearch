@@ -11,8 +11,6 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import net.sf.log4jdbc.Log4jdbcProxyDataSource;
-
 @Configuration
 public class AppConfig {
     @Autowired
@@ -20,7 +18,7 @@ public class AppConfig {
     DataSource dataSource;
 
     @Bean(destroyMethod = "close")
-    DataSource realDataSource() throws URISyntaxException {
+    DataSource dataSource() throws URISyntaxException {
         String url;
         String username;
         String password;
@@ -48,9 +46,9 @@ public class AppConfig {
         return this.dataSource;
     }
 
-    @Bean
-    DataSource dataSource() {
-        return new Log4jdbcProxyDataSource(this.dataSource);
-    }
+//    @Bean
+//    DataSource dataSource() {
+//        return new Log4jdbcProxyDataSource(this.dataSource);
+//    }
 
 }

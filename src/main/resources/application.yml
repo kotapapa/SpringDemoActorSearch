@@ -3,17 +3,66 @@ server:
   port: 8070
 
 spring:
+# 初期値:開発用
   profle:
     active: dev
+
 # THYMELEAF (ThymeleafAutoConfiguration)
   thymeleaf:
     enabled: true
     cache: false
+
 # INTERNATIONALIZATION (MessageSourceAutoConfiguration)
   messages:
     basename: messages
     cache-seconds: -1
     encoding: UTF-8
+
+# DATASOURCE (DataSourceAutoConfiguration & DataSourceProperties)
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/sample_db
+    username: test_user
+    password: test
+# JPA (JpaBaseConfiguration, HibernateJpaAutoConfiguration)
+  jpa:
+    hibernate:
+      show-sql: true
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+## 開発用
+#spring:
+#  profiles: dev
+## DATASOURCE (DataSourceAutoConfiguration & DataSourceProperties)
+#  datasource:
+#    driverClassName: org.postgresql.Driver
+#    url: jdbc:postgresql://localhost:5432/sample_db
+#    username: test_user
+#    password: test
+## JPA (JpaBaseConfiguration, HibernateJpaAutoConfiguration)
+#  jpa:
+#    hibernate:
+#      show-sql: true
+#      ddl-auto: update
+#    database-platform: org.hibernate.dialect.PostgreSQLDialect
+---
+# heroku用
+spring:
+    profiles: heroku
+    datasource:
+      driverClassName: org.postgresql.Driver
+    jpa:
+      database: POSTGRESQL
+      hibernate:
+        ddl-auto: update
+      properties:
+          hibernate:
+            dialect: org.hibernate.dialect.PostgreSQLDialect
+            hbm2ddl:
+                auto: update
+            temp:
+                use_jdbc_metadata_defaults: false
 
 # ENDPOINTS (AbstractEndpoint subclasses)
 endpoints:
@@ -30,38 +79,3 @@ settings:
 cron:
   cron1: 0 * * * * MON-FRI
   cron2: 0 */2 * * * *
----
-# Local
-spring:
-  profiles: dev
-# DATASOURCE (DataSourceAutoConfiguration & DataSourceProperties)
-  datasource:
-    driverClassName: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/sample_db
-    username: test_user
-    password: test
-# JPA (JpaBaseConfiguration, HibernateJpaAutoConfiguration)
-  jpa:
-    hibernate:
-      show-sql: true
-      ddl-auto: update
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
----
-# heroku
-   profiles: heroku
-   datasource:
-    driverClassName: org.postgresql.Driver
-   jpa:
-      database: POSTGRESQL
-      hibernate:
-        ddl-auto: update
-      properties:
-          hibernate:
-            dialect: org.hibernate.dialect.PostgreSQLDialect
-            hbm2ddl:
-                auto: update
-            temp:
-                use_jdbc_metadata_defaults: false
-
-
-

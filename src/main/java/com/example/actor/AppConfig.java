@@ -27,7 +27,7 @@ public class AppConfig {
         if (databaseUrl != null) {
             //heroku��
             URI dbUri = new URI(databaseUrl);
-            url = "jdbc:postgresql://" + dbUri.getHost() + dbUri.getPath() + ":" + dbUri.getPort() + dbUri.getPath();
+            url = "jdbc:postgresql://" + dbUri.getHost() + ":" + dbUri.getPort() + dbUri.getPath();
             username = dbUri.getUserInfo().split(":")[0];
             password = dbUri.getUserInfo().split(":")[1];
         } else {
